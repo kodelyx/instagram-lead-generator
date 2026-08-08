@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="no-referrer">
+  <title>InstaLeads Automation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">InstaLeads <span class="badge-pro">PRO</span></div>
+        </div>
+      </div>
+
+      <div class="session-badge" id="session-badge" title="Instagram Status">
+        <span class="pulse-dot"></span>
+        <span id="session-status-text">Checking...</span>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-tab="tab-scraper">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span>Scraper</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-single">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span>Lookup</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-leads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <span>Leads (<span id="leads-count">0</span>)</span>
+      </button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="app-main">
+      
+      <!-- TAB 1: BULK SCRAPER -->
+      <section class="tab-content active" id="tab-scraper">
+        <div class="card">
+          <div class="card-header">
+            <h3>Extract Leads</h3>
+          </div>
+
+          <!-- Active Tab Auto Detection Banner -->
+          <div id="active-tab-banner" class="auto-detect-banner hidden">
+            <span>📍 Current Profile: <strong id="detected-username">@username</strong></span>
+            <button id="btn-use-detected-user">Use This Profile</button>
+          </div>
+
+          <div class="form-group target-field-full">
+            <label for="scraper-target">Target Profile / Link</label>
+            <div class="input-with-icon input-large">
+              <span class="input-prefix">🔍</span>
+              <input type="text" id="scraper-target" placeholder="Enter Username or Post/Reel link...">
+            </div>
+          </div>
+
+          <div class="grid-2 margin-bottom-md">
+            <div class="form-group">
+              <label>Scrape From</label>
+              <div class="custom-select-wrapper" id="source-select-wrapper">
+                <div class="custom-select-trigger">
+                  <span class="selected-text">Following</span>
+                  <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                <div class="custom-select-menu hidden">
+                  <div class="custom-select-option active" data-value="following">Following</div>
+                  <div class="custom-select-option" data-value="followers">Followers</div>
+                  <div class="custom-select-option" data-value="likes">Post Likes ❤️</div>
+                  <div class="custom-select-option" data-value="comments">Post Comments 💬</div>
+                </div>
+                <input type="hidden" id="scraper-source-select" value="following">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Profiles</label>
+              <div class="custom-select-wrapper" id="amount-select-wrapper">
+                <div class="custom-select-trigger">
+                  <span class="selected-text">50 Profiles</span>
+                  <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                <div class="custom-select-menu hidden">
+                  <div class="custom-select-option" data-value="20">20 Profiles</div>
+                  <div class="custom-select-option active" data-value="50">50 Profiles</div>
+                  <div class="custom-select-option" data-value="100">100 Profiles</div>
+                  <div class="custom-select-option" data-value="200">200 Profiles</div>
+                </div>
+                <input type="hidden" id="scraper-amount" value="50">
+              </div>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button id="btn-start-scrape" class="btn btn-primary btn-full">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              <span>Start Lead Extraction</span>
+            </button>
+            <button id="btn-stop-scrape" class="btn btn-danger hidden">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12"></rect></svg>
+              Stop
+            </button>
+          </div>
+
+          <!-- Progress Bar -->
+          <div id="scrape-progress-container" class="progress-box hidden">
+            <div class="progress-header">
+              <span id="progress-status-text">Scanning accounts...</span>
+              <span id="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%"></div>
+            </div>
+            <div class="progress-stats">
+              <span>Scanned: <b id="stat-scanned">0</b></span>
+              <span>Emails Found: <b id="stat-emails" class="text-success">0</b></span>
+              <span>Phones Found: <b id="stat-phones" class="text-info">0</b></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: SINGLE PROFILE LOOKUP -->
+      <section class="tab-content" id="tab-single">
+        <div class="card">
+          <div class="card-header">
+            <h3>Single Profile Inspector</h3>
+          </div>
+
+          <div class="search-box">
+            <input type="text" id="single-username-input" placeholder="Enter username (e.g. techplus.ai)">
+            <button id="btn-inspect-profile" class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              Inspect
+            </button>
+          </div>
+
+          <!-- Profile Details Card (Rendered on search) -->
+          <div id="single-profile-result" class="profile-preview-card hidden">
+            <div class="profile-header">
+              <img id="p-avatar" src="" alt="Avatar" class="profile-avatar" referrerpolicy="no-referrer">
+              <div class="profile-title-area">
+                <div class="p-name-row">
+                  <h4 id="p-fullname">Name</h4>
+                  <span id="p-verified-badge" class="badge-verified hidden">✓ Verified</span>
+                </div>
+                <div class="p-username" id="p-username">@username</div>
+                <div class="p-category" id="p-category">Creator</div>
+              </div>
+            </div>
+
+            <div class="p-stats-grid">
+              <div class="stat-pill">
+                <span class="stat-label">Followers</span>
+                <span class="stat-value" id="p-followers">0</span>
+              </div>
+              <div class="stat-pill">
+                <span class="stat-label">Following</span>
+                <span class="stat-value" id="p-following">0</span>
+              </div>
+              <div class="stat-pill">
+                <span class="stat-label">Posts</span>
+                <span class="stat-value" id="p-posts">0</span>
+              </div>
+            </div>
+
+            <div class="p-bio-box" id="p-bio">
+              Bio description goes here...
+            </div>
+
+            <div class="p-contacts-box">
+              <div class="contact-row" id="p-email-row">
+                <span class="c-icon">📧</span>
+                <span class="c-text font-mono" id="p-email">No public email</span>
+                <button class="btn-copy" id="btn-copy-email" title="Copy Email">Copy</button>
+              </div>
+              <div class="contact-row" id="p-phone-row">
+                <span class="c-icon">📞</span>
+                <span class="c-text font-mono" id="p-phone">No phone number</span>
+                <button class="btn-copy" id="btn-copy-phone" title="Copy Phone">Copy</button>
+              </div>
+              <div id="p-links-container" class="p-links-container">
+                <!-- Dynamic Bio Links Rendered Here -->
+              </div>
+            </div>
+
+            <div class="profile-actions">
+              <button id="btn-add-to-leads" class="btn btn-secondary btn-full">
+                + Save to Extracted Leads
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: EXTRACTED LEADS & EXPORT -->
+      <section class="tab-content" id="tab-leads">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>Extracted Leads</h3>
+              <div class="sub-header-text">Saved contacts & database</div>
+            </div>
+            <div class="export-group">
+              <button id="btn-export-csv" class="btn btn-success btn-sm" title="Download Excel/CSV format">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                CSV Export
+              </button>
+              <button id="btn-clear-leads" class="btn btn-outline btn-sm">Clear All</button>
+            </div>
+          </div>
+
+          <!-- Quick Filters -->
+          <div class="filter-chips">
+            <button class="chip active" data-filter="all">All (<span id="chip-all-count">0</span>)</button>
+            <button class="chip" data-filter="has-email">📧 Emails (<span id="chip-email-count">0</span>)</button>
+            <button class="chip" data-filter="has-phone">📞 Phones (<span id="chip-phone-count">0</span>)</button>
+            <button class="chip" data-filter="verified">✓ Verified</button>
+          </div>
+
+          <!-- Search in leads -->
+          <div class="search-mini">
+            <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="leads-search-input" placeholder="Search by name, handle, or email...">
+          </div>
+
+          <!-- Modern Leads Feed List Container (Zero horizontal scrollbars!) -->
+          <div id="leads-list-container" class="leads-list-container">
+            <div class="empty-state">
+              <div class="empty-icon">📂</div>
+              <p>No leads extracted yet.</p>
+              <small>Run Lead Scraper or inspect profiles to start building your database.</small>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast hidden">
+      <span id="toast-message">Notification</span>
+    </div>
+  </div>
+
+  <!-- Go WebAssembly & Modular JS Architecture -->
+  <script src="wasm_exec.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
